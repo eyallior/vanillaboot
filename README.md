@@ -13,3 +13,4 @@ Projects' guiding principles:
 * No compilation (easy to reverse engineer starting from browser)
 * No chunking to incoherent little code pieces
 * Due to no framework as base and fewer dependabilities, we get long term reliability (no framework change will cause this project to be unusable)
+
