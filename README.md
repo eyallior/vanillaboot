@@ -1,6 +1,6 @@
 # Vanilla Boot
 
-## Minimal Framework ꞏ Maximum Control ꞏ Pure Javascript ꞏ Pure Freedom
+### Minimal Framework ꞏ Maximum Control ꞏ Pure Javascript ꞏ Pure Freedom
 
 ### Project's guiding principles:
 
