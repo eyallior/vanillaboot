@@ -24,4 +24,5 @@
 * Ability to embed modules in parent modules and to communicate with other modules
 * Open multiple instances of the same module
 * Dynamic loading of module's Javascript, css or any kind of dependencies
-* 
+
+[Github](https://github.com/eyallior/vanillaboot)
