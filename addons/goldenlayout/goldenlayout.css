@@ -1,0 +1,13 @@
+.lm_content {
+    background-color: #222!important;
+}
+.lm_goldenlayout {
+    background-color: black!important;
+}
+.lm_tab:hover, .lm_tab.lm_active {
+    color: #222!important;
+    background-color: #222!important;
+}
+.lm_close_tab {
+    background-color: #aaa!important;
+}

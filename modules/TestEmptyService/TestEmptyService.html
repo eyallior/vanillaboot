@@ -1,0 +1,39 @@
+
+<style>
+
+</style>
+<div style="background-color: FDC528; height: 100%; width: 100%;">
+    <div style="float: left;">LEFT</div>
+    <div style="float: right;">RIGHT</div>
+    
+    <table style="width: 100%;">
+        <tr>
+            <td style="font-size: 11pt;">
+                <div style="text-align: center; margin-top: 10px;">
+                    <table style="display: inline;">
+                        <tr>
+                            <td style="padding-left: 10px;">
+                                <span id="TestEmptyServiceMainSpan">
+                                    TestEmptyService <span class="IDSpan"></span><br><br>
+                                    {:TestComponent eid="tc1" foo="bar1" some="thing1" :}
+                                    <br>
+                                    {:TestComponent eid="tc2" foo="bar2" some="thing2" :}
+                                    <br>
+                                    <span id="TestSpanInParent"></span>
+                                    <br><br>
+                                    /TestEmptyService <span class="IDSpan"></span><br>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+    <div style="position: absolute; bottom: 0px; width: 100%; background-color: #FDC528!important;">
+        <div style="float: right;">Bottom-RIGHT</div>
+        <div style="float: left;">Bottom-Left</div>
+    </div>
+    
+</div>
