@@ -7,10 +7,11 @@
 ### Project's guiding principles:
 
 * Non pervasive - You can do anything you could do in Vanilla
+* Minimalist approach, no need to learn the guts of a framework to have full control of your app
 * Reusable Components ("modules")
 * Download only used modules (or decide which modules to preload)
 * No JSX (use only standard html)
-* No Reactivity (no mystery why things happen or don't when something doesn't go as planned)
+* No Reactivity, full control of rendering (no mystery why things happen or don't when something doesn't go as planned)
 * Simple flow of data between embedded modules, plus free-form flow of data according to your needs
 * Free-form module architecture (no surprises, nothing to learn, no complex flow required for your code, every module can be different - full flexibility)
 * No Virtual Dom
