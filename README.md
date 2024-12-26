@@ -29,4 +29,21 @@
 * Open multiple instances of the same module
 * Dynamic loading of module's Javascript, css or any kind of dependencies
 
+### About
+
+Vanilla Boot is in very early stages, and is being developed by Eyal Lior, a software developer since year 2000 based in Tel Aviv, Israel.
+Eyal is an expert in vanilla JavaScript complex GUIs, and has a pragmatic, uncomplicated approach to software development.
+The code for Vanilla Boot is being sourced from existing, complex, and mature projects, which serve as a repository for incremental dismantling and reuse. This process is carried out methodically, without haste, as each addition is followed by careful observation of user adoption and the identification of potential refactoring needs before proceeding with further integration
+
+
+### Upcoming Features
+
+* Add-Ons
+    * Menu
+    * Windowing
+    * Forms - with awesome validation feature, that is easy to customize
+    * AG-Grid
+* Mobile responsive layout
+* PWA
+
 [Github](https://github.com/eyallior/vanillaboot)
