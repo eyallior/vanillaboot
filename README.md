@@ -33,6 +33,8 @@
 
 To run the example you'll need to load it from a server (because of Cross-Origin Blocking you won't be able to simply open the file in browser from disk). Something like https://www.npmjs.com/package/http-server will do just fine.
 
+Online running example: https://vanillaboot.vercel.app/example.html
+
 
 ### About
 
