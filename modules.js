@@ -22,6 +22,7 @@ function VanillaBootModules (rootEl)
                 if (modulesElements[i].dataset.initiated) continue;
                 modulesElements[i].innerHTML = loadedTemplates[modulesElements[i].dataset.name];
                 let module = new window["_" + modulesElements[i].dataset.name](modulesElements[i], parent); // initiate module
+                module.start();
                 modulesElements[i].dataset.initiated = true;
                 attachModules(modulesElements[i].getElementsByClassName("VanillaBootModule"), module);
             }
@@ -132,8 +133,11 @@ function VanillaBootModules (rootEl)
 
 }
 
+const loadedDependencies = [];
 function VanillaBootModule (element, parent) {
     
+    // TODO: 
+
     this.element = element;
     this.parent = parent;
     
@@ -160,10 +164,10 @@ function VanillaBootModule (element, parent) {
     
     function alreadyLoaded (resource) {
         const resourceName = Array.isArray(resource)? resource[0] : resource;
-        if (_alreadyLoaded.indexOf(resourceName) > -1) {
+        if (loadedDependencies.indexOf(resourceName) > -1) {
             return true;
         };
-        _alreadyLoaded.push(resourceName);
+        loadedDependencies.push(resourceName);
         return false;
     }
     this.loadDependencies = function (module, scriptsSources, loadDependenciesThat) {
@@ -252,6 +256,7 @@ function VanillaBootModule (element, parent) {
                         }
                         proceed();
                     }
+                    
                     if (Array.isArray(scriptsSources[0])) {
                         script.src = scriptsSources[0][0];
                     } else {
@@ -298,4 +303,5 @@ function VanillaBootModule (element, parent) {
     this.registerParentModule = function (module) {
         this.parentModule = module;
     }
+    
 }

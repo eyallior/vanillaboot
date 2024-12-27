@@ -5,6 +5,11 @@ function _TestGrandParent (element, parent) {
 
     console.log("TestGrandParent " + element.dataset.id);
 
+    this.dostart = function ()
+    {
+        // alert(this.getName());
+    }
+
     this.callFromChild = function (id, text) {
         let testSpan = this.element.querySelector('#TestSpanInGrandParent_' + id);
         testSpan.innerHTML += text + "<br>";

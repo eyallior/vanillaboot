@@ -5,6 +5,11 @@ function _TestParent (element, parent) {
 
     console.log("TestParent " + element.dataset.id);
 
+    this.dostart = function ()
+    {
+        // alert(this.getName());
+    }
+
     let testSpan = this.element.querySelectorAll(".IDSpan");
     for (let i = 0; i < testSpan.length; i++) {
         testSpan[i].innerHTML = this.element.dataset.id;

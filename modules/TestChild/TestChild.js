@@ -1,9 +1,28 @@
 function _TestChild (element, parent) {
 
     VanillaBootModule.call(this, element, parent);
-    this.loadDependencies(this, []);
+    this.loadDependencies(this, [
+        "/modules/TestChild/sampleDependency.css",
+        ["/modules/TestChild/sampleDependency.js", function () {
+            if ( typeof changeOpacity != "undefined") changeOpacity(element, "red"); // TODO: This is called before dependency is loaded - fix!
+        }]
+    ]);
 
     // console.log("TestChild " + element.dataset.id + " of " + parent.element.dataset.id);
+
+    this.dostart = function ()
+    {
+        if ( typeof changeOpacity != "undefined") 
+            {
+                changeOpacity(this.element, "ddeeppink");
+                // alert(this.element.dataset.id + " blue");
+            }
+            else 
+            {
+                // alert(this.element.dataset.id);
+            }
+        // alert(this.getName());
+    }
 
     this.parentModuleWillCallThis = function (text) {
         let testSpan = this.element.querySelector('#TestSpan');
