@@ -29,6 +29,11 @@
 * Open multiple instances of the same module
 * Dynamic loading of module's Javascript, css or any kind of dependencies
 
+### Demo:
+
+To run the example you'll need to load it from a server (because of Cross-Origin Blocking you won't be able to simply open the file in browser from disk). Something like https://www.npmjs.com/package/http-server will do just fine.
+
+
 ### About
 
 Vanilla Boot is in very early stages, and is being developed by Eyal Lior, a software developer since year 2000 based in Tel Aviv, Israel.
