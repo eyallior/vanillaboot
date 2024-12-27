@@ -53,4 +53,6 @@ The code for Vanilla Boot is sourced from existing, complex, and mature projects
 * Mobile responsive layout
 * PWA
 
-[Github](https://github.com/eyallior/vanillaboot)
+Source: [Github](https://github.com/eyallior/vanillaboot)
+
+Support @ [Vanilla Boot R&D Telegram group](https://t.me/+QVaaVPOrtTJjMWQ0)
