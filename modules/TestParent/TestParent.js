@@ -1,15 +1,16 @@
-function _TestEmptyService (screenNum, instanceNum) {
+function _TestParent (element) {
 
-    Module.call(this, screenNum, instanceNum);
+    Module.call(this, element);
     this.loadDependencies(this, []);
 
     this.dostart = function () {
-        // let that = this;
-        // setTimeout(() => {
-        //     that.embeddedModules["tc1"].parentModuleWillCallThis("Hi son!");
-        // }, 1000);
         const postfix = this.buildPostfix();
-        let testSpan = document.querySelector('#TestEmptyServiceMainSpan' + postfix + "").querySelectorAll(".IDSpan");
+        if (!document.querySelector('#SomeParentSpanId' + postfix + ""))
+        {
+            console.error("Error - no " + '#SomeParentSpanId' + postfix);
+            return;
+        }
+        let testSpan = document.querySelector('#SomeParentSpanId' + postfix + "").querySelectorAll(".IDSpan");
         for (let i = 0; i < testSpan.length; i++) {
             testSpan[i].innerHTML = this.instanceNum;
         }
@@ -25,7 +26,7 @@ function _TestEmptyService (screenNum, instanceNum) {
         
     }
 
-    this.getName = function () {return "TestEmptyService"}
+    this.getName = function () {return "TestParent"}
     this.resized = function () {
             
     }
@@ -33,8 +34,8 @@ function _TestEmptyService (screenNum, instanceNum) {
 
     
     this.closing = function () {
-        console.log("Closing veto (override) for screen " + this.screenNum + " panel TestEmptyService (" + this.instanceNum + ")");
-        // return confirm ("Close screen " + this.screenNum + " TestEmptyService (" + this.instanceNum + ")?");
+        console.log("Closing veto (override) for screen " + this.screenNum + " panel TestParent (" + this.instanceNum + ")");
+        // return confirm ("Close screen " + this.screenNum + " TestParent (" + this.instanceNum + ")?");
         return this.__proto__.closing();
     }
 
@@ -43,6 +44,6 @@ function _TestEmptyService (screenNum, instanceNum) {
   
 }
 
-_TestEmptyService.prototype = new Module();
-_TestEmptyService.prototype.constructor = _TestEmptyService;
-// var TestEmptyService = new _TestEmptyService();
+_TestParent.prototype = new Module();
+_TestParent.prototype.constructor = _TestParent;
+// var TestParent = new _TestParent();

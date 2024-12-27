@@ -1,13 +1,145 @@
-/*
-Base class for all client-side modules. Loads dependencies then calls dostart()
-For module loading see also main.ejs
-*/
-const _alreadyLoaded = [];
-function Module (screenNum, instanceNum, parentPostfix) {
+function NewModules (rootEl)
+{
+    this.rootElement = document.getElementById(rootEl);
+
+    var loadedModules = {}; // Marks loaded modules
+    var loadedTemplates = {}; // Saves loaded templates (as-is)
+    // var flattenedTemplates = {}; // 
+
+    this.showModule = async function (module, title, targetEl)
+    {
+        // TODO: Consult veto and close previous
+        
+        var loadedModules = await loadModule(module, []);
+
+        this.rootElement.innerHTML = loadedTemplates[module];
+
+        var newModule = new window["_" + module](this.rootElement); // initiate the root module
+        
+        function attachModules (modulesElements)
+        {
+            for (let i = 0; i < modulesElements.length; i++) {
+                modulesElements[i].innerHTML = loadedTemplates[modulesElements[i].dataset.name];
+                let module = new window["_" + modulesElements[i].dataset.name](modulesElements[i]); // initiate module
+            }
+        }
+        attachModules(this.rootElement.getElementsByClassName("VanillaBootModule"));
+        
     
-    this.instanceNum = instanceNum;
-    this.screenNum = screenNum;
-    this.parentPostfix = parentPostfix;
+        
+
+
+        // TODO: once grandparent + parent + child are loaded, send messages from grandparent to child,
+        //  and from child to grandparent through parent - to prove functionality
+
+
+        
+    }
+
+    async function loadModule (module, loadedModules)
+    {
+        return (function(){
+        // TODO: Use closure to protect
+        const p = new Promise(async (resolve, reject) => {
+
+            const scriptPromise = new Promise((resolve, reject) => {
+                loadModuleScript(module).then((values)=>{resolve(values)});
+            });
+            
+            const templatePromise = new Promise((resolve, reject) => {
+                loadModuleTemplate(module).then((values)=>{resolve(values)});
+            });
+            Promise.all([scriptPromise, templatePromise]).then((values)=>{
+                // Load embeded modules
+                if (values[1].length > 0)
+                {
+                    const promises = [];
+                    for (let i = 0; i < values[1].length; i++) {
+                        (function(){
+                            promises.push(new Promise((resolve, reject) => {
+                                if (loadedModules) loadedModules.push(module);
+                                loadModule(values[1][i], loadedModules? loadedModules : [module]).then(() => {resolve()});
+                            }));
+                        })();
+                        
+                    }
+                    Promise.all(promises).then((values)=>{
+                        resolve(loadedModules);
+                    });
+                }
+                else 
+                {
+                    loadedModules.push(module);
+                    resolve(loadedModules);
+                }
+            });
+            
+        });
+        return p;
+    })();
+    }
+
+    function loadModuleScript (module)
+    {
+        // TODO: Use closure to protect
+        const p = new Promise((resolve, reject) => {
+            if (loadedModules[module]) 
+            {
+                resolve(0);
+                return;
+            }
+            var script = document.createElement('script');
+            script.src = "modules/" + module + "/" + module + ".js";
+            script.onload = function () {
+                loadedModules[module] = true;
+                resolve(0);
+            }
+            document.head.appendChild(script);
+        });
+        return p;
+    }
+
+    function loadModuleTemplate (module)
+    {
+        // TODO: Use closure to protect
+        const p = new Promise((resolve, reject) => {
+            
+            if (loadedTemplates[module])
+            {
+                // We've already loaded this module's template and all it's embedded leafs
+                resolve([]);
+                return;
+            }
+
+            fetch ("modules/" + module + "/" + module + ".html").then(
+                function (response) { return response.text(); }).then(
+                    function (html) {
+
+                var parser = new DOMParser();
+
+                // Parse the text
+                var doc = parser.parseFromString(html, "text/html");
+                const embeddedModules = doc.getElementsByClassName("VanillaBootModule");
+                let embeddedModulesNames = [];
+                for (let i = 0; i < embeddedModules.length; i++) {
+                    var embeddedModuleName = embeddedModules[i].dataset.name;
+                    if (!loadedTemplates[embeddedModuleName] && embeddedModulesNames.indexOf(embeddedModuleName) == -1)
+                        embeddedModulesNames.push(embeddedModuleName);
+                }
+                var templateHTML = doc.body.innerHTML;
+                loadedTemplates[module] = templateHTML;
+                
+                resolve(embeddedModulesNames);
+            });
+        });
+        return p;
+    }
+
+}
+
+function Module (element) {
+    
+    this.element = element;
 
     this.loaded = false;
     this.embeddedModules = {};
@@ -39,11 +171,19 @@ function Module (screenNum, instanceNum, parentPostfix) {
         return false;
     }
     this.loadDependencies = function (module, scriptsSources, loadDependenciesThat) {
+        
+        if (scriptsSources.length == 0)
+        {
+            proceed();
+            return;
+        }
+
         if (undefined == loadDependenciesThat) {
             // Not a recursion, so let's add common dependencies
-            scriptsSources.push("lib/css-loader/css-loader.css");
+            // scriptsSources.push("lib/css-loader/css-loader.css");
 
             // Number formating support
+            /*
             scriptsSources.push(["lib/autonumeric/autoNumeric.min.js", function () {
                 const autoNumericOptions = {
                     decimalPlaces: 15,
@@ -56,6 +196,7 @@ function Module (screenNum, instanceNum, parentPostfix) {
                   };
                   setTimeout(function (){AutoNumeric.multiple("input.number",null, autoNumericOptions); }, 130);
             }]);
+            */
         }
         // var promises = [];
         // for (i = 0; i < scriptsSources.length; i++) {
@@ -175,4 +316,5 @@ function Module (screenNum, instanceNum, parentPostfix) {
     this.registerParentModule = function (module) {
         this.parentModule = module;
     }
+    
 }
