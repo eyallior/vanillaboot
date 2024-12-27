@@ -31,16 +31,16 @@
 
 ### Demo:
 
-To run the example you'll need to load it from a server (because of Cross-Origin Blocking you won't be able to simply open the file in browser from disk). Something like https://www.npmjs.com/package/http-server will do just fine.
+To run the example you'll need to load it from a server (because of Cross-Origin Blocking you won't be able to simply open the file in browser from disk). Something like [http-server](https://www.npmjs.com/package/http-server) will do just fine.
 
-Online running example: https://vanillaboot.vercel.app/example.html
+Online running example: [https://vanillaboot.vercel.app/example.html](https://vanillaboot.vercel.app/example.html)
 
 
 ### About
 
-Vanilla Boot is in very early stages, and is being developed by Eyal Lior, a software developer since year 2000 based in Tel Aviv, Israel.
-Eyal is an expert in vanilla JavaScript complex GUIs, and has a pragmatic, uncomplicated approach to software development.
-The code for Vanilla Boot is being sourced from existing, complex, and mature projects, which serve as a repository for incremental dismantling and reuse. This process is carried out methodically, without haste, as each addition is followed by careful observation of user adoption and the identification of potential refactoring needs before proceeding with further integration
+Vanilla Boot is in its early stages and is being developed by Eyal Lior, a software developer since 2000, based in Tel Aviv, Israel. Eyal is an expert in complex GUIs using vanilla JavaScript and takes a pragmatic, uncomplicated approach to software development.
+
+The code for Vanilla Boot is sourced from existing, complex, and mature projects, which serve as a repository for incremental dismantling and reuse. This process is carried out methodically and without haste, with each addition followed by careful observation of user adoption and the identification of potential refactoring needs before further integration.
 
 
 ### Upcoming Features
