@@ -1,29 +1,19 @@
-function _TestParent (element) {
+function _TestParent (element, parent) {
 
-    Module.call(this, element);
+    VanillaBootModule.call(this, element, parent);
     this.loadDependencies(this, []);
 
-    this.dostart = function () {
-        const postfix = this.buildPostfix();
-        if (!document.querySelector('#SomeParentSpanId' + postfix + ""))
-        {
-            console.error("Error - no " + '#SomeParentSpanId' + postfix);
-            return;
-        }
-        let testSpan = document.querySelector('#SomeParentSpanId' + postfix + "").querySelectorAll(".IDSpan");
-        for (let i = 0; i < testSpan.length; i++) {
-            testSpan[i].innerHTML = this.instanceNum;
-        }
+    console.log("TestParent " + element.dataset.id);
+
+    let testSpan = this.element.querySelectorAll(".IDSpan");
+    for (let i = 0; i < testSpan.length; i++) {
+        testSpan[i].innerHTML = this.element.dataset.id;
     }
 
-    this.callFromEmbedded = function (id, text) {
-        const postfix = this.buildPostfix();
-        let testSpan = document.querySelector('#TestSpanInParent' + postfix);
+    this.callFromChild = function (child, text) {
+        let testSpan = this.element.querySelector('#TestSpanInParent');
         testSpan.innerHTML += text + "<br>";
-        this.embeddedModules[id].parentModuleWillCallThis("Hi son " + id + "! (" + this.instanceNum + ")");
-        // var endTime = performance.now();
-        // alert(endTime - window.startTime);
-        
+        child.parentModuleWillCallThis("Hi son " + child.element.dataset.id + "! (" + this.element.dataset.id + ")");
     }
 
     this.getName = function () {return "TestParent"}
@@ -44,6 +34,6 @@ function _TestParent (element) {
   
 }
 
-_TestParent.prototype = new Module();
+_TestParent.prototype = new VanillaBootModule();
 _TestParent.prototype.constructor = _TestParent;
 // var TestParent = new _TestParent();

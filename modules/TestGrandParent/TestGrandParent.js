@@ -1,21 +1,14 @@
-function _TestGrandParent (element) {
+function _TestGrandParent (element, parent) {
 
-    Module.call(this, element);
+    VanillaBootModule.call(this, element, parent);
     this.loadDependencies(this, []);
 
-    this.dostart = function () {
-        const postfix = this.buildPostfix();
-        // let testSpan = document.querySelector('#SomeSpanId' + postfix + "").querySelectorAll(".IDSpan");
-        // for (let i = 0; i < testSpan.length; i++) {
-        //     testSpan[i].innerHTML = this.instanceNum;
-        // }
-    }
+    console.log("TestGrandParent " + element.dataset.id);
 
-    this.callFromEmbedded = function (id, text) {
-        const postfix = this.buildPostfix();
-        let testSpan = document.querySelector('#TestSpanInGrandParent' + postfix);
+    this.callFromChild = function (id, text) {
+        let testSpan = this.element.querySelector('#TestSpanInGrandParent_' + id);
         testSpan.innerHTML += text + "<br>";
-        this.embeddedModules[id].parentModuleWillCallThis("Hi son " + id + "! (" + this.instanceNum + ")");
+        // this.embeddedModules[id].parentModuleWillCallThis("Hi son " + id + "! (" + this.instanceNum + ")");
         // var endTime = performance.now();
         // alert(endTime - window.startTime);
         
@@ -39,6 +32,6 @@ function _TestGrandParent (element) {
   
 }
 
-_TestGrandParent.prototype = new Module();
+_TestGrandParent.prototype = new VanillaBootModule();
 _TestGrandParent.prototype.constructor = _TestGrandParent;
 // var TestGrandParent = new _TestGrandParent();
