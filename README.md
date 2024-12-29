@@ -1,6 +1,4 @@
-# Vanilla Boot
-
-![Minimal Framework ꞏ Maximum Control ꞏ Pure Javascript ꞏ Pure Freedom](https://raw.githubusercontent.com/eyallior/vanillaboot/refs/heads/main/images/logo-dark.png)
+![Vanilla Boot](https://raw.githubusercontent.com/eyallior/vanillaboot/refs/heads/main/images/logo-dark.png)
 
 ### Minimal Framework ꞏ Maximum Control ꞏ Pure Javascript ꞏ Pure Freedom
 
