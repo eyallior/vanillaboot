@@ -4,6 +4,8 @@
 
 ### Minimal Framework ꞏ Maximum Control ꞏ Pure Javascript ꞏ Pure Freedom
 
+Vanilla Boot is a lightweight JavaScript utility designed to streamline front-end development without relying on extensive frameworks. It enables developers to build applications using standard JavaScript and HTML, preserving the flexibility and simplicity of native web technologies.
+
 ### Project's guiding principles:
 
 * Non pervasive - You can do anything you could do in Vanilla
@@ -52,6 +54,7 @@ The code for Vanilla Boot is sourced from existing, complex, and mature projects
     * AG-Grid
 * Mobile responsive layout
 * PWA
+* Client Side Routing (Updating/Reading the URL in address bar)
 
 Source: [Github](https://github.com/eyallior/vanillaboot)
 
