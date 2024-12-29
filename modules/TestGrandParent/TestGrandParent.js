@@ -3,7 +3,7 @@ function _TestGrandParent (element, parent) {
     VanillaBootModule.call(this, element, parent);
     this.loadDependencies(this, []);
 
-    console.log("TestGrandParent " + element.dataset.id);
+    // console.log("TestGrandParent " + element.dataset.id);
 
     this.dostart = function ()
     {

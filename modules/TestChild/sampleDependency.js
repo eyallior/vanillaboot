@@ -1,5 +1,4 @@
-
-function changeOpacity (el, color)
+function callSampleDependency (el)
 {
-    el.querySelector('#TestSpan').style.backgroundColor = color;
+    el.querySelector('#TestChild').style.backgroundColor = "red";
 }

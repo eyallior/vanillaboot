@@ -162,16 +162,22 @@ function VanillaBootModule (element, parent) {
         return "Module";
     }
     
-    function alreadyLoaded (resource) {
+    function isAlreadyLoaded (resource) {
         const resourceName = Array.isArray(resource)? resource[0] : resource;
         if (loadedDependencies.indexOf(resourceName) > -1) {
             return true;
         };
-        loadedDependencies.push(resourceName);
         return false;
     }
+    
+    function setAlreadyLoaded (resource) {
+        const resourceName = Array.isArray(resource)? resource[0] : resource;
+        loadedDependencies.push(resourceName);
+    }
+
     this.loadDependencies = function (module, scriptsSources, loadDependenciesThat) {
         
+        // TODO: Closure protect scriptsSources
         if (scriptsSources.length == 0)
         {
             proceed();
@@ -217,13 +223,14 @@ function VanillaBootModule (element, parent) {
                             scriptsSources.shift();
                             loadDependenciesThat(module, scriptsSources, loadDependenciesThat);
                         } else {
+                            // console.log((parent && parent.element && parent.element.dataset.id? parent.element.dataset.id + " : ": "")  + element.dataset.id + " proceed");
                             module.notifyLoaded();
                         }
                     }
 
                     if (!Array.isArray(scriptsSources[0]) && scriptsSources[0].endsWith(".css")) {
                         
-                        if (alreadyLoaded(scriptsSources[0])) {
+                        if (isAlreadyLoaded(scriptsSources[0])) {
                             proceed();
                             return;
                         };
@@ -231,13 +238,14 @@ function VanillaBootModule (element, parent) {
                         link.rel = "stylesheet";
                         link.href = scriptsSources[0];
                         link.onload = function () {
+                            setAlreadyLoaded(scriptsSources[0]);
                             proceed();
                         }
                         document.head.appendChild(link);
                         return;
                     }
 
-                    if (alreadyLoaded(scriptsSources[0])) {
+                    if (isAlreadyLoaded(scriptsSources[0])) {
                         if (Array.isArray(scriptsSources[0])) {
                             // postLoad
                             scriptsSources[0][1]();
@@ -251,6 +259,7 @@ function VanillaBootModule (element, parent) {
                         script.postLoad = scriptsSources[0][1];
                     }
                     script.onload = function () {
+                        setAlreadyLoaded(scriptsSources[0]);
                         if (this.postLoad) {
                             this.postLoad();
                         }
