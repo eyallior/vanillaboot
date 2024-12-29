@@ -134,10 +134,11 @@ function VanillaBootModules (rootEl)
 }
 
 const loadedDependencies = [];
+var currentlyLoadingDependencies = {};
+var waitingToInit = {};
+
 function VanillaBootModule (element, parent) {
     
-    // TODO: 
-
     this.element = element;
     this.parent = parent;
     
@@ -165,9 +166,12 @@ function VanillaBootModule (element, parent) {
     function isAlreadyLoaded (resource) {
         const resourceName = Array.isArray(resource)? resource[0] : resource;
         if (loadedDependencies.indexOf(resourceName) > -1) {
-            return true;
-        };
-        return false;
+            return "loaded";
+        }
+        if (currentlyLoadingDependencies[resourceName]) {
+            return "loading";
+        }
+        return "no";
     }
     
     function setAlreadyLoaded (resource) {
@@ -230,30 +234,56 @@ function VanillaBootModule (element, parent) {
 
                     if (!Array.isArray(scriptsSources[0]) && scriptsSources[0].endsWith(".css")) {
                         
-                        if (isAlreadyLoaded(scriptsSources[0])) {
+                        if (isAlreadyLoaded(scriptsSources[0]) == "loaded") {
                             proceed();
                             return;
-                        };
+                        }
+                        else if (isAlreadyLoaded(scriptsSources[0]) == "loading")
+                        {
+                            if (!waitingToInit[scriptsSources[0]]) waitingToInit[scriptsSources[0]] = [proceed];
+                            else waitingToInit[scriptsSources[0]].push(proceed);
+                            return;
+                        }
+                        const resourceName = Array.isArray(scriptsSources[0])? scriptsSources[0][0] : scriptsSources[0];
+                        currentlyLoadingDependencies[resourceName] = 1;
                         var link = document.createElement('link');
                         link.rel = "stylesheet";
                         link.href = scriptsSources[0];
                         link.onload = function () {
+                            const resourceName = Array.isArray(scriptsSources[0])? scriptsSources[0][0] : scriptsSources[0];
                             setAlreadyLoaded(scriptsSources[0]);
                             proceed();
+                            for(var key in waitingToInit){
+                                if(waitingToInit.hasOwnProperty(key)){
+                                    for (let i = 0; i < waitingToInit[key].length; i++) {
+                                        waitingToInit[key][i]();
+                                    }
+                                }
+                            }
+                            waitingToInit[resourceName] = [];
+                            currentlyLoadingDependencies[resourceName] = [];
                         }
                         document.head.appendChild(link);
                         return;
                     }
 
-                    if (isAlreadyLoaded(scriptsSources[0])) {
+                    if (isAlreadyLoaded(scriptsSources[0]) == "loaded") {
                         if (Array.isArray(scriptsSources[0])) {
                             // postLoad
-                            scriptsSources[0][1]();
+                            // scriptsSources[0][1](); // Commented out - we only call postload once (assuming it's more related to the dependency than the instance using it)
                         }
                         proceed();
                         return;
-                    };
-
+                    }
+                    else if (isAlreadyLoaded(scriptsSources[0]) == "loading")
+                    {
+                        if (!waitingToInit[scriptsSources[0]]) waitingToInit[scriptsSources[0]] = [proceed];
+                        else waitingToInit[scriptsSources[0]].push(proceed);
+                        return;
+                    }
+                    const resourceName = Array.isArray(scriptsSources[0])? scriptsSources[0][0] : scriptsSources[0];
+                    currentlyLoadingDependencies[resourceName] = 1;
+                        
                     var script = document.createElement('script');
                     if (Array.isArray(scriptsSources[0])) {
                         script.postLoad = scriptsSources[0][1];
@@ -264,6 +294,16 @@ function VanillaBootModule (element, parent) {
                             this.postLoad();
                         }
                         proceed();
+                        for(var key in waitingToInit){
+                            if(waitingToInit.hasOwnProperty(key)){
+                                for (let i = 0; i < waitingToInit[key].length; i++) {
+                                    waitingToInit[key][i]();
+                                }
+                            }
+                        }
+                        const resourceName = Array.isArray(scriptsSources[0])? scriptsSources[0][0] : scriptsSources[0];
+                        waitingToInit[resourceName] = [];
+                        currentlyLoadingDependencies[resourceName] = [];
                     }
                     
                     if (Array.isArray(scriptsSources[0])) {
