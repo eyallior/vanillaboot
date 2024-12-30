@@ -54,6 +54,6 @@ The code for Vanilla Boot is sourced from existing, complex, and mature projects
 * PWA
 * Client Side Routing (Updating/Reading the URL in address bar)
 
-Source: [Github](https://github.com/eyallior/vanillaboot)
+## Download / Source: [Github](https://github.com/eyallior/vanillaboot)
 
-Support @ [Vanilla Boot R&D Telegram group](https://t.me/+QVaaVPOrtTJjMWQ0)
+## Support: [Vanilla Boot Support Telegram group](https://t.me/+QVaaVPOrtTJjMWQ0)
