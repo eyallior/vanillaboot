@@ -2,7 +2,7 @@
 
 ### Minimal Framework ꞏ Maximum Control ꞏ Pure Javascript ꞏ Pure Freedom
 
-Vanilla Boot is a lightweight JavaScript utility designed to streamline front-end development without relying on extensive frameworks. It enables developers to build applications using standard JavaScript and HTML, preserving the flexibility and simplicity of native web technologies.
+Vanilla Boot is a lightweight JavaScript utility designed to streamline front-end development without relying on extensive frameworks. It enables developers to build applications with reusable UI components using standard JavaScript and HTML, preserving the flexibility and simplicity of native web technologies.
 
 ### Project's guiding principles:
 
@@ -15,7 +15,7 @@ Vanilla Boot is a lightweight JavaScript utility designed to streamline front-en
 * Simple flow of data between embedded modules, plus free-form flow of data according to your needs
 * Free-form module architecture (no surprises, nothing to learn, no complex flow required for your code, every module can be different - full flexibility)
 * No Virtual Dom
-* Manual data binding, enables highly customizable UI without having to learn the guts of the framework
+* No built-in state management or data binding. Developers have full control to implement these as needed, eliminating the need to learn the framework's inner workings
 * Access dom elements by predictable ids
 * Framework is written in short and simple code, no stratified object oriented hell
 * No compilation (easy to reverse engineer starting from browser)
