@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vanilla Boot</title>
+<link rel="shortcut icon" href="images/favicon.ico" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<script type="text/javascript" src="vanillaboot.js" defer onload="startComponents()"></script>
+
+<div id="exampleLayout" style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; background-color: #FDC528; color: white; overflow: scroll;"></div>
+
+<script type="text/javascript">
+  var vanillaBootComponents;
+  function startComponents ()
+  {
+    vanillaBootComponents = new VanillaBootComponents("exampleLayout");
+    vanillaBootComponents.showComponent("ExampleForms", "Example Forms", null);
+  }
+</script>
+
+</body>
+</html>

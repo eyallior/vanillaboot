@@ -215,7 +215,7 @@ function VanillaBootComponent (element, parent) {
             // scriptsSources.push("lib/css-loader/css-loader.css");
 
             // Number formating support
-            /*
+            
             scriptsSources.push(["lib/autonumeric/autoNumeric.min.js", function () {
                 const autoNumericOptions = {
                     decimalPlaces: 15,
@@ -228,7 +228,7 @@ function VanillaBootComponent (element, parent) {
                   };
                   setTimeout(function (){AutoNumeric.multiple("input.number",null, autoNumericOptions); }, 130);
             }]);
-            */
+            
         }
         // var promises = [];
         // for (i = 0; i < scriptsSources.length; i++) {
