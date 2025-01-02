@@ -2,19 +2,31 @@
 <html>
 <head>
 <title>Vanilla Boot</title>
+<link rel="shortcut icon" href="images/favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  input[type=button] {
+      border: 4px solid rgba(255, 255, 255, 0.8);;
+      padding: 6px 12px 6px 12px!important;
+      background-color: rgba(0, 0, 0, 0.5);;
+      border-radius: 6px;
+      margin: 4px;
+      color: white;
+  }
+  </style>
 </head>
 <body>
 
-<script type="text/javascript" src="vanillaboot.js" defer onload="startModules()"></script>
+<script type="text/javascript" src="vanillaboot.js" defer onload="startComponents()"></script>
 
 <div id="exampleLayout" style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; background-color: black; color: white;"></div>
 
 <script type="text/javascript">
-  function startModules ()
+  var vanillaBootComponents;
+  function startComponents ()
   {
-    var vanillaBootModules = new VanillaBootModules("exampleLayout");
-    vanillaBootModules.showModule("TestGrandParent", "Test Module", null);
+    vanillaBootComponents = new VanillaBootComponents("exampleLayout");
+    vanillaBootComponents.showComponent("TestGrandParent", "Test Component", null);
   }
 </script>
 

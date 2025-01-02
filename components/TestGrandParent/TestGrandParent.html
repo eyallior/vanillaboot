@@ -1,7 +1,5 @@
 
-<style>
 
-</style>
 <div style="height: 100%; width: 100%;">
     <!-- div style="float: left; background-color: #FDC528; color: black;">LEFT</div>
     <div style="float: right; background-color: #FDC528; color: black;">RIGHT</div -->
@@ -10,13 +8,13 @@
         <tr>
             <td style="font-size: 11pt; text-align: center; overflow: scroll; display: block; height: 100vh;">
                 <br>
-                GrandParent <span class="IDSpan"></span><br><br>
+                Root Component <span class="IDSpan"></span><br>
                 <div style="text-align: center; margin-top: 10px;">
                     <table style="display: inline;">
                         <tr>
                             <td style="padding: 10px; border: 0px dashed orange;">
                                 <span id="SomeSpanId1">
-                                    <div class="VanillaBootModule" data-name="TestParent" data-id="tp1"></div>
+                                    <div class="VanillaBootComponent" data-name="TestParent" data-id="P1"></div>
                                     <br>
                                     <span id="TestSpanInGrandParent_tp1"></span>
                                     <br><br>
@@ -25,7 +23,7 @@
                             </td>
                             <td>
                                 <span id="SomeSpanId2">
-                                    <div class="VanillaBootModule" data-name="TestParent" data-id="tp2"></div>
+                                    <div class="VanillaBootComponent" data-name="TestParent" data-id="P2"></div>
                                     <br>
                                     <span id="TestSpanInGrandParent_tp2"></span>
                                     <br><br>
@@ -38,9 +36,9 @@
                     <div style="display: inline-block; text-align: left; border: 1px dashed chartreuse; border-radius: 14px; padding: 14px; padding-right: 54px;">
                         This example shows:<br>
                         <ul>
-                            <li>Loading of nested modules</li>
+                            <li>Loading of nested components</li>
                             <li>Concurrent instances</li>
-                            <li>Communications between modules</li>
+                            <li>Communications between components</li>
                             <li>Ordered loading of dependencies</li>
                         </ul>
                     </div>

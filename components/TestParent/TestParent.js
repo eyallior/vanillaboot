@@ -1,6 +1,6 @@
 function _TestParent (element, parent) {
 
-    VanillaBootModule.call(this, element, parent);
+    VanillaBootComponent.call(this, element, parent);
     this.loadDependencies(this, []);
 
     // console.log("TestParent " + element.dataset.id);
@@ -18,7 +18,7 @@ function _TestParent (element, parent) {
     this.callFromChild = function (child, text) {
         let testSpan = this.element.querySelector('#TestSpanInParent');
         testSpan.innerHTML += text + "<br>";
-        child.parentModuleWillCallThis("Hi son " + child.element.dataset.id + "! (" + this.element.dataset.id + ")");
+        child.parentComponentWillCallThis("Hi " + child.element.dataset.id + "! I'm " + this.element.dataset.id);
     }
 
     this.getName = function () {return "TestParent"}
@@ -39,6 +39,6 @@ function _TestParent (element, parent) {
   
 }
 
-_TestParent.prototype = new VanillaBootModule();
+_TestParent.prototype = new VanillaBootComponent();
 _TestParent.prototype.constructor = _TestParent;
 // var TestParent = new _TestParent();

@@ -8,12 +8,12 @@ Vanilla Boot is a lightweight JavaScript utility designed to streamline front-en
 
 * Non pervasive - You can do anything you could do in Vanilla
 * Minimalist approach, no need to learn the guts of a framework to have full control of your app
-* Reusable Components ("modules")
-* Download only used modules (or decide which modules to preload)
+* Reusable Components
+* Download only used components (or decide which components to preload)
 * No JSX (use only standard html)
 * No Reactivity, full control of rendering (no mystery why things happen or don't when something doesn't go as planned)
-* Simple flow of data between embedded modules, plus free-form flow of data according to your needs
-* Free-form module architecture (no surprises, nothing to learn, no complex flow required for your code, every module can be different - full flexibility)
+* Simple flow of data between embedded components, plus free-form flow of data according to your needs
+* Free-form component architecture (no surprises, nothing to learn, no complex flow required for your code, every component can be different - full flexibility)
 * No Virtual Dom
 * No built-in state management or data binding. Developers have full control to implement these as needed, eliminating the need to learn the framework's inner workings
 * Access dom elements by predictable ids
@@ -24,10 +24,10 @@ Vanilla Boot is a lightweight JavaScript utility designed to streamline front-en
 
 ### Features:
 
-* Ability to create modules in completely different strategy for each
-* Ability to embed modules in parent modules and to communicate with other modules
-* Open multiple instances of the same module
-* Dynamic loading of module's Javascript, css or any kind of dependencies
+* Ability to create components in completely different strategy for each
+* Ability to embed components in parent components and to communicate with other components based on hierarchy or id
+* Open multiple instances of the same component
+* Dynamic loading of component's Javascript, css or any kind of dependencies
 
 ### Demo:
 

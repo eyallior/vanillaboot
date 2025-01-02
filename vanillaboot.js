@@ -1,72 +1,94 @@
-function VanillaBootModules (rootEl)
+function VanillaBootComponents (rootEl)
 {
     this.rootElement = document.getElementById(rootEl);
 
-    var loadedModules = {}; // Marks loaded modules
+    var loadedComponents = {}; // Marks loaded components
     var loadedTemplates = {}; // Saves loaded templates (as-is)
-    // var flattenedTemplates = {}; // 
+    var elementsToComponents = new Map();
+    
+    this.findContainer = function (el)
+    {
+        if (elementsToComponents.has(el)) return elementsToComponents.get(el);
+        return this.findContainer(el.parentElement);
+    }
 
-    this.showModule = async function (module, title, targetEl)
+    this.findComponent = function (idArray)
+    {
+        function recurseFindComponent (_idArray, el)
+        {
+            let firstId = _idArray.shift();
+            el = el.querySelector(("[data-id='" + firstId + "']"));
+            if (_idArray.length > 0) return recurseFindComponent(_idArray, el);
+            else return elementsToComponents.get(el);
+        }
+        return recurseFindComponent(idArray, document);
+    }
+
+    this.showComponent = async function (component, title, targetEl)
     {
         // TODO: Consult veto and close previous
         
-        var loadedModules = await loadModule(module, []);
+        loadedComponents = await loadComponent(component, []);
 
-        this.rootElement.innerHTML = loadedTemplates[module];
+        this.rootElement.innerHTML = loadedTemplates[component];
 
-        var newModule = new window["_" + module](this.rootElement, null); // initiate the root module
+        var newComponent = new window["_" + component](this.rootElement, null); // initiate the root component
+        newComponent.start();
+
+        elementsToComponents.set(this.rootElement, newComponent);
         
-        function attachModules (modulesElements, parent)
+        function attachComponents (componentsElements, parent)
         {
-            for (let i = 0; i < modulesElements.length; i++) {
-                if (modulesElements[i].dataset.initiated) continue;
-                modulesElements[i].innerHTML = loadedTemplates[modulesElements[i].dataset.name];
-                let module = new window["_" + modulesElements[i].dataset.name](modulesElements[i], parent); // initiate module
-                module.start();
-                modulesElements[i].dataset.initiated = true;
-                attachModules(modulesElements[i].getElementsByClassName("VanillaBootModule"), module);
+            for (let i = 0; i < componentsElements.length; i++) {
+                if (componentsElements[i].dataset.initiated) continue;
+                componentsElements[i].innerHTML = loadedTemplates[componentsElements[i].dataset.name];
+                let component = new window["_" + componentsElements[i].dataset.name](componentsElements[i], parent); // initiate component
+                component.start();
+                componentsElements[i].dataset.initiated = true;
+                elementsToComponents.set(componentsElements[i], component);
+                attachComponents(componentsElements[i].getElementsByClassName("VanillaBootComponent"), component);
             }
         }
-        attachModules(this.rootElement.getElementsByClassName("VanillaBootModule"), newModule);
+        attachComponents(this.rootElement.getElementsByClassName("VanillaBootComponent"), newComponent);
 
         
     }
 
-    async function loadModule (module, loadedModules)
+    async function loadComponent (component, loadedComponents)
     {
         return (function(){
         // TODO: Use closure to protect
         const p = new Promise(async (resolve, reject) => {
 
             const scriptPromise = new Promise((resolve, reject) => {
-                loadModuleScript(module).then((values)=>{resolve(values)});
+                loadComponentScript(component).then((values)=>{resolve(values)});
             });
             
             const templatePromise = new Promise((resolve, reject) => {
-                loadModuleTemplate(module).then((values)=>{resolve(values)});
+                loadComponentTemplate(component).then((values)=>{resolve(values)});
             });
             Promise.all([scriptPromise, templatePromise]).then((values)=>{
-                // Load embeded modules
+                // Load embeded components
                 if (values[1].length > 0)
                 {
                     const promises = [];
                     for (let i = 0; i < values[1].length; i++) {
                         (function(){
                             promises.push(new Promise((resolve, reject) => {
-                                if (loadedModules) loadedModules.push(module);
-                                loadModule(values[1][i], loadedModules? loadedModules : [module]).then(() => {resolve()});
+                                if (loadedComponents) loadedComponents.push(component);
+                                loadComponent(values[1][i], loadedComponents? loadedComponents : [component]).then(() => {resolve()});
                             }));
                         })();
                         
                     }
                     Promise.all(promises).then((values)=>{
-                        resolve(loadedModules);
+                        resolve(loadedComponents);
                     });
                 }
                 else 
                 {
-                    loadedModules.push(module);
-                    resolve(loadedModules);
+                    loadedComponents.push(component);
+                    resolve(loadedComponents);
                 }
             });
             
@@ -75,19 +97,19 @@ function VanillaBootModules (rootEl)
     })();
     }
 
-    function loadModuleScript (module)
+    function loadComponentScript (component)
     {
         // TODO: Use closure to protect
         const p = new Promise((resolve, reject) => {
-            if (loadedModules[module]) 
+            if (loadedComponents[component]) 
             {
                 resolve(0);
                 return;
             }
             var script = document.createElement('script');
-            script.src = "modules/" + module + "/" + module + ".js";
+            script.src = "components/" + component + "/" + component + ".js";
             script.onload = function () {
-                loadedModules[module] = true;
+                loadedComponents[component] = true;
                 resolve(0);
             }
             document.head.appendChild(script);
@@ -95,19 +117,19 @@ function VanillaBootModules (rootEl)
         return p;
     }
 
-    function loadModuleTemplate (module)
+    function loadComponentTemplate (component)
     {
         // TODO: Use closure to protect
         const p = new Promise((resolve, reject) => {
             
-            if (loadedTemplates[module])
+            if (loadedTemplates[component])
             {
-                // We've already loaded this module's template and all it's embedded leafs
+                // We've already loaded this component's template and all it's embedded leafs
                 resolve([]);
                 return;
             }
 
-            fetch ("modules/" + module + "/" + module + ".html").then(
+            fetch ("components/" + component + "/" + component + ".html").then(
                 function (response) { return response.text(); }).then(
                     function (html) {
 
@@ -115,17 +137,17 @@ function VanillaBootModules (rootEl)
 
                 // Parse the text
                 var doc = parser.parseFromString(html, "text/html");
-                const embeddedModules = doc.getElementsByClassName("VanillaBootModule");
-                let embeddedModulesNames = [];
-                for (let i = 0; i < embeddedModules.length; i++) {
-                    var embeddedModuleName = embeddedModules[i].dataset.name;
-                    if (!loadedTemplates[embeddedModuleName] && embeddedModulesNames.indexOf(embeddedModuleName) == -1)
-                        embeddedModulesNames.push(embeddedModuleName);
+                const embeddedComponents = doc.getElementsByClassName("VanillaBootComponent");
+                let embeddedComponentsNames = [];
+                for (let i = 0; i < embeddedComponents.length; i++) {
+                    var embeddedComponentName = embeddedComponents[i].dataset.name;
+                    if (!loadedTemplates[embeddedComponentName] && embeddedComponentsNames.indexOf(embeddedComponentName) == -1)
+                        embeddedComponentsNames.push(embeddedComponentName);
                 }
                 var templateHTML = doc.body.innerHTML;
-                loadedTemplates[module] = templateHTML;
+                loadedTemplates[component] = templateHTML;
                 
-                resolve(embeddedModulesNames);
+                resolve(embeddedComponentsNames);
             });
         });
         return p;
@@ -137,14 +159,14 @@ const loadedDependencies = [];
 var currentlyLoadingDependencies = {};
 var waitingToInit = {};
 
-function VanillaBootModule (element, parent) {
+function VanillaBootComponent (element, parent) {
     
     this.element = element;
     this.parent = parent;
     
     this.loaded = false;
-    this.embeddedModules = {};
-    this.parentModule = null;
+    this.embeddedComponents = {};
+    this.parentComponent = null;
 
     this.ready = function () {if (this.startWanted) {this.dostart();}};
     this.notifyLoaded = function () {
@@ -160,7 +182,7 @@ function VanillaBootModule (element, parent) {
         }
     }
     this.getName = function () {
-        return "Module";
+        return "Component";
     }
     
     function isAlreadyLoaded (resource) {
@@ -179,7 +201,7 @@ function VanillaBootModule (element, parent) {
         loadedDependencies.push(resourceName);
     }
 
-    this.loadDependencies = function (module, scriptsSources, loadDependenciesThat) {
+    this.loadDependencies = function (component, scriptsSources, loadDependenciesThat) {
         
         // TODO: Closure protect scriptsSources
         if (scriptsSources.length == 0)
@@ -225,10 +247,10 @@ function VanillaBootModule (element, parent) {
                     function proceed () {
                         if (scriptsSources.length > 1) {
                             scriptsSources.shift();
-                            loadDependenciesThat(module, scriptsSources, loadDependenciesThat);
+                            loadDependenciesThat(component, scriptsSources, loadDependenciesThat);
                         } else {
                             // console.log((parent && parent.element && parent.element.dataset.id? parent.element.dataset.id + " : ": "")  + element.dataset.id + " proceed");
-                            module.notifyLoaded();
+                            component.notifyLoaded();
                         }
                     }
 
@@ -311,14 +333,14 @@ function VanillaBootModule (element, parent) {
                     } else {
                         script.src = scriptsSources[0];
                     }
-                    // script.type = "module";
+                    // script.type = "component";
                     document.head.appendChild(script);
                 // }
             // });
             // promises.push(promise);
         // }
         // Promise.all(promises).then(()=>{
-        //     module.notifyLoaded();
+        //     component.notifyLoaded();
         // })
     },
     this.resized = function () {
@@ -330,7 +352,7 @@ function VanillaBootModule (element, parent) {
     }
     this.loading = function (show, txt) {
         let postfix = this.buildPostfix();
-        let moduleDiv = document.querySelector('#module' + postfix + "div");
+        let componentDiv = document.querySelector('#component' + postfix + "div");
         if (false == show) {
             let loadingDiv = document.querySelector("#loadingDiv" + postfix);
             if (loadingDiv) {
@@ -343,14 +365,14 @@ function VanillaBootModule (element, parent) {
         loadingDiv.setAttribute('class', 'loader loader-default is-active');
         loadingDiv.setAttribute('style', 'position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;');
         if (txt) loadingDiv.setAttribute('data-text', txt);
-        moduleDiv.appendChild(loadingDiv);
+        componentDiv.appendChild(loadingDiv);
     }
 
-    this.registerEmbeddedModules = function (id, module) {
-        this.embeddedModules[id] = module;
-    }
-    this.registerParentModule = function (module) {
-        this.parentModule = module;
-    }
+    // this.registerEmbeddedComponents = function (id, component) {
+    //     this.embeddedComponents[id] = component;
+    // }
+    // this.registerParentComponent = function (component) {
+    //     this.parentComponent = component;
+    // }
     
 }

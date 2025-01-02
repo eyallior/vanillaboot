@@ -1,6 +1,6 @@
 function _TestGrandParent (element, parent) {
 
-    VanillaBootModule.call(this, element, parent);
+    VanillaBootComponent.call(this, element, parent);
     this.loadDependencies(this, []);
 
     // console.log("TestGrandParent " + element.dataset.id);
@@ -13,7 +13,7 @@ function _TestGrandParent (element, parent) {
     this.callFromChild = function (id, text) {
         let testSpan = this.element.querySelector('#TestSpanInGrandParent_' + id);
         testSpan.innerHTML += text + "<br>";
-        // this.embeddedModules[id].parentModuleWillCallThis("Hi son " + id + "! (" + this.instanceNum + ")");
+        // this.embeddedComponents[id].parentComponentWillCallThis("Hi son " + id + "! (" + this.instanceNum + ")");
         // var endTime = performance.now();
         // alert(endTime - window.startTime);
         
@@ -37,6 +37,6 @@ function _TestGrandParent (element, parent) {
   
 }
 
-_TestGrandParent.prototype = new VanillaBootModule();
+_TestGrandParent.prototype = new VanillaBootComponent();
 _TestGrandParent.prototype.constructor = _TestGrandParent;
 // var TestGrandParent = new _TestGrandParent();
