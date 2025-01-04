@@ -10,7 +10,7 @@
                                     <table style="display: inline;">
                                         <tr>
                                             <td style="padding-right: 10px;">
-                                                New Cash NOE
+                                                FX Spot/Forward/Swap
                                             </td>
                                             <td>
                                                 <input type="hidden" id="instrumentTypeHidden" name="instrumentTypeHidden" value="CashNOE">
@@ -21,7 +21,7 @@
                                                 </label>
                                             </td>
                                             <td style="padding-left: 10px;">
-                                                New Option NOE
+                                                FX Option
                                             </td>
                                         </tr>
                                     </table>
@@ -830,6 +830,39 @@
                                     <input type="hidden" id="approveIncoming" name="approveIncoming" value="">
                                     <input type="submit" id="sendLabel" name="sendLabel" lang="en" class="blueButton" style="border: 4px solid #fff3d1; padding: 6px 12px 6px 12px!important;" value="Send"  onclick="vanillaBootComponents.findContainer(this).submitter='send';">
                                     <input type="button" id="clearFormButton" name="clearFormButton"lang="en" class="blueButton" style="border: 4px solid #fff3d1; padding: 6px 12px 6px 12px!important; background-color: forestgreen!important; visibility: hidden;" value="Clear form" onclick="vanillaBootComponents.findContainer(this).resetForm()">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 11pt; text-align: center;">
+                                <div style="display: inline-block; text-align: left; border: 8px dashed #ffd96c; border-radius: 14px; padding: 14px; padding-right: 54px;">
+                                    <b>This example shows:</b><br>
+                                    <ul>
+                                        <li>Validation of fields
+                                            <ul>
+                                                <li>Mandatory fields can't remain empty</li>
+                                                <li>Some fields like dates have custom rules</li>
+                                                <li>validation rules can depend on values of other fields</li>
+                                                <li>Option to surpress validation in some fields (try past date in Value Field)</li>
+                                            </ul>
+                                        </li>
+                                        <li>Form with many dependencies between fields
+                                            <ul>
+                                                <li>Depending on the chosen CCY, the NDF checkbox becomes enabled or enabled and checked</li>
+                                                <li>Select CCY like ARS - and the NDF checkbox becomes enabled</li>
+                                            </ul>
+                                        </li>
+                                        <li>Dynamic fields
+                                            <ul>
+                                                <li>If NDF is checked, 2 fields will be display: Fixing date and index</li>
+                                                <li>If SWAP is chosen, 4 more fields will be shown</li>
+                                                <li>Change the top radio button to FX Option</li>
+                                                <li>Change contract type from Vanilla and see how different fields are shown</li>
+                                            </ul>
+                                        </li>
+                                        <li>Number formatting with AutoNumeric.js</li>
+                                        <li>Clear form button after submission</li>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>

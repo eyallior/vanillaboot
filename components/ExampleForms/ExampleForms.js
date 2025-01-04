@@ -1042,28 +1042,13 @@ function _ExampleForms (element, parent) {
             alert("Error - Please refresh page");
             return false;
         }
-        // if (this.isAdmin) {
-        //     // This is an admin - let's give an option to name the generated file
-        //     this.generatedFileName = prompt("Ready to send? You can decide how to name the file here:");
-        //     if (this.generatedFileName == null) return false;
-        //     else {
-        //         this.generatedFileName = this.generatedFileName.trim();
-        //         if (this.generatedFileName != "" && false == /^[a-zA-Z][a-zA-Z0-9 \-]+$/.test(this.generatedFileName)) {
-        //             alert("file name must start with a letter and contain [a-z,0-9, ,-] only");
-        //             return false;
-        //         }
-        //         return true;
-        //     }
-
-        // } else {
-            return confirm("Are you ready to send the form?");
-        // }
+        return confirm("Are you ready to send the form?");
     }
     this.generatedFileName = "";
 
     this.resetNeeded = false;
     this.resetForm = function () {
-        this.checkIfUploaded();
+        
         this.resetNeeded = false;
         // $("#ExampleForm" + " :input").prop('readonly', false);
         
@@ -1177,48 +1162,6 @@ function _ExampleForms (element, parent) {
         // });
     }
     
-    this.checkIfUploaded = function () {
-        let that = this;
-        setTimeout(()=>{
-            fetch('./ExampleFormsService.getPreviousTrades', {
-                method: 'post',
-                body: JSON.stringify({trader: "", clientTradeIds: that.checkIfUploadedIds}),
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-                })
-                .then(httpResponse => httpResponse.json())
-                .then(response => {
-                    if (response.status == "ok") {
-                        that.setupPreviousTrades(response.previousTrades, response.gatewayFiles);
-                        if (!that.isAdmin) {
-                            that.traderChanged();
-                        } else {
-                            that.setPreviousTradesSelectBox();
-                        }
-                        // flash the change
-                        that.showErrorAndReturnFalse(null, "tradesGrid");
-                    }
-                    const previousTradesKeys = Object.keys(this.previousTrades);
-                    let addedIndeed = false;
-                    for (let i = 0; i < previousTradesKeys.length; i++) {
-                        const preTrades = this.previousTrades[previousTradesKeys[i]];
-                        for (let j = 0; j < preTrades.length; j++) {
-                            const element = preTrades[j];
-                            let idx = that.checkIfUploadedIds.indexOf(preTrades[j].client_trade_id);
-                            if (idx > -1) {
-                                addedIndeed = true; // this will make the prev trades combobox blink
-                                that.checkIfUploadedIds.splice(idx, 1); // as long as we have ids here - we'll keep checking
-                            }
-                        }
-                    }
-                    if (addedIndeed) that.showErrorAndReturnFalse("Last trade added 👍👍👍", "tradesGrid");
-                    if (that.checkIfUploadedIds.length > 0) that.checkIfUploaded();
-                });
-        }, 2000);
-    }
-
-
-      
-  
 }
 
 _ExampleForms.prototype = new VanillaBootComponent();
