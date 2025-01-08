@@ -47,12 +47,16 @@ The code for Vanilla Boot is sourced from existing, complex, and mature projects
 
 * Add-Ons
     * Menu
-    * Windowing
     * Forms - with awesome validation feature, that is easy to customize
+* 3rd Party integrations
+    * Windowing (GoldenLayout / W2/UI)
     * AG-Grid
+    * VanillaRouter - Client Side Routing (Updating/Reading the URL in address bar)
+    * VanJS - Reactive UI (think having reactivity as a feature in some screens, vs imposed on all your code)
 * Mobile responsive layout
 * PWA
-* Client Side Routing (Updating/Reading the URL in address bar)
+
+
 
 ## Download / Source: [Github](https://github.com/eyallior/vanillaboot)
 
